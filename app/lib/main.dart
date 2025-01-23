@@ -1,4 +1,5 @@
 import 'package:app/ui/city_list.dart';
+import 'package:app/ui/widget/gradient_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: CityList(),
+      home: GradientScaffold(child: CityList()),
       debugShowCheckedModeBanner: false,
     );
   }
