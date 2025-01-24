@@ -14,7 +14,13 @@ class _CityListState extends State<CityList>{
   return Stack(
     children: [
       title(),
-      list(),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          list(),
+          addBtn(),
+        ],
+      ),
     ],
   );
 
@@ -34,7 +40,7 @@ class _CityListState extends State<CityList>{
 
   list() => Center(
     child: Container(
-      constraints: const BoxConstraints(maxHeight: 600.0),
+      constraints: const BoxConstraints(maxHeight: 450.0),
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: ListView.builder(
         padding: const EdgeInsets.only(left: 5, right: 5),
@@ -60,16 +66,19 @@ class _CityListState extends State<CityList>{
                       Image.asset('assets/weather_icon/broken_clouds.png', scale: 1.5, color: Colors.black,),
                       const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Paris',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text('Nuageux'),
+                          Text(
+                            'Nuageux',
+                          ),
                         ],
                       ),
-                      const Text('8',
+                      const Text('8' '°',
                         style:  TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.bold,
@@ -82,6 +91,29 @@ class _CityListState extends State<CityList>{
           );
         },
       ),
+    ),
+  );
+
+  addBtn() => Align(
+    alignment: Alignment.topRight,
+    child: Padding(
+      padding: const EdgeInsets.only(
+        top: 40,
+        right: 40,
+      ),
+      child: FloatingActionButton(
+        onPressed: () => {
+          print('BTN'),
+        },
+        backgroundColor: Colors.white,
+        child: const Text(
+          '+',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 25,
+          ),
+        ),
+      )
     ),
   );
 }
