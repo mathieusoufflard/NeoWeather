@@ -12,4 +12,12 @@ class DailyWeather {
     required this.temp,
     required this.weather,
   });
+
+  factory DailyWeather.fromJson(Map<String, dynamic> json) {
+    return DailyWeather(
+      dt: json['dt'],
+      temp: DailyTemperature.fromJson(json['temp']),
+      weather: WeatherCondition.fromJson(json['weather'][0]),
+    );
+  }
 }

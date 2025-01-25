@@ -10,4 +10,12 @@ class HourlyWeather {
     required this.temp,
     required this.weather,
   });
+
+  factory HourlyWeather.fromJson(Map<String, dynamic> json) {
+    return HourlyWeather(
+      dt: json['dt'],
+      temp: (json['temp'] as num).toDouble(),
+      weather: WeatherCondition.fromJson(json['weather'][0]),
+    );
+  }
 }

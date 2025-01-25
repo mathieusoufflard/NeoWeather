@@ -8,4 +8,12 @@ class WeatherCondition {
     required this.main,
     required this.description,
   });
+
+  factory WeatherCondition.fromJson(Map<String, dynamic> json) {
+    return WeatherCondition(
+      id: json['id'],
+      main: json['main'],
+      description: json['description'],
+    );
+  }
 }

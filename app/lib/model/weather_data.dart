@@ -15,4 +15,21 @@ class WeatherData {
     required this.daily,
     this.alerts,
   });
+
+  factory WeatherData.fromJson(Map<String, dynamic> json) {
+    return WeatherData(
+      current: CurrentWeather.fromJson(json['current']),
+      hourly: (json['hourly'] as List<dynamic>)
+          .map((hour) => HourlyWeather.fromJson(hour))
+          .toList(),
+      daily: (json['daily'] as List<dynamic>)
+          .map((day) => DailyWeather.fromJson(day))
+          .toList(),
+      alerts: json['alerts'] != null
+          ? (json['alerts'] as List<dynamic>)
+          .map((alert) => WeatherAlert.fromJson(alert))
+          .toList()
+          : null,
+    );
+  }
 }

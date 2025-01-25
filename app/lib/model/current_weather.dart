@@ -26,4 +26,20 @@ class CurrentWeather {
     required this.windSpeed,
     required this.weather,
   });
+
+  factory CurrentWeather.fromJson(Map<String, dynamic> json) {
+    return CurrentWeather(
+      dt: json['dt'],
+      sunrise: json['sunrise'],
+      sunset: json['sunset'],
+      temp: (json['temp'] as num).toDouble(),
+      feelsLike: (json['feels_like'] as num).toDouble(),
+      pressure: json['pressure'],
+      humidity: json['humidity'],
+      uvi: (json['uvi'] as num).toDouble(),
+      visibility: json['visibility'],
+      windSpeed: (json['wind_speed'] as num).toDouble(),
+      weather: WeatherCondition.fromJson(json['weather'][0]),
+    );
+  }
 }

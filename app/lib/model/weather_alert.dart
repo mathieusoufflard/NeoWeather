@@ -12,4 +12,14 @@ class WeatherAlert {
     required this.end,
     required this.description,
   });
+
+  factory WeatherAlert.fromJson(Map<String, dynamic> json) {
+    return WeatherAlert(
+      senderName: json['sender_name'],
+      event: json['event'],
+      end: json['end'],
+      start: json['start'],
+      description: json['description'],
+    );
+  }
 }
