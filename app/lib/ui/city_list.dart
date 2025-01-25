@@ -1,3 +1,4 @@
+import 'package:app/ui/widget/add_city.dart';
 import 'package:flutter/material.dart';
 
 class CityList extends StatefulWidget{
@@ -102,8 +103,8 @@ class _CityListState extends State<CityList>{
         right: 40,
       ),
       child: FloatingActionButton(
-        onPressed: () => {
-          print('BTN'),
+        onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AddCity()));
         },
         backgroundColor: Colors.white,
         child: const Text(
