@@ -2,7 +2,7 @@ class City {
   final String name;
   final double lat;
   final double lon;
-  final String? state; // Facultatif, car certaines entrées peuvent ne pas contenir cet attribut.
+  final String? state;
   final String country;
 
   City({
@@ -12,4 +12,18 @@ class City {
     this.state,
     required this.country,
   });
+
+  List<City> parseCities(List<dynamic> jsonList) {
+    return jsonList.map((json) => City.fromJson(json)).toList();
+  }
+
+  factory City.fromJson(Map<String, dynamic> json) {
+    return City(
+      name: json['name'],
+      lat: (json['lat'] as num).toDouble(),
+      lon: (json['lon'] as num).toDouble(),
+      state: json['state'],
+      country: json['country'],
+    );
+  }
 }
