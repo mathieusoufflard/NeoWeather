@@ -1,4 +1,4 @@
-import 'package:app/ui/widget/add_city.dart';
+import 'package:app/ui/add_city.dart';
 import 'package:flutter/material.dart';
 
 class CityList extends StatefulWidget{
