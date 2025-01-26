@@ -22,7 +22,8 @@ class GradientScaffold extends StatelessWidget{
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
+          elevation: 0,
+          automaticallyImplyLeading: false,
         ),
         backgroundColor: Colors.transparent,
         body: child,
