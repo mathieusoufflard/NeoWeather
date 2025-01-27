@@ -130,7 +130,116 @@ class WeatherDetails extends StatelessWidget {
     ],
   );
 
-  mainData() => Container();
+  Widget weatherDetailsCard() => Padding(
+    padding: EdgeInsets.only(left: 20, right: 20),
+    child: Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      //color: Colors.red.withOpacity(0.25),
+      color: Color.fromRGBO(216, 0, 4, 0.25),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Color.fromRGBO(216, 0, 4, 0.25),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: widgetCard(),
+        ),
+    ),
+    ),
+  );
 
-  weatherDetailsCard() => Container();
+  widgetCard() => Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          'Alerte',
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+      ),
+      SizedBox(height: 18,),
+      Text(
+        'Meteo-France',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      ),
+      SizedBox(height: 18,),
+      Text(
+        'Avis aux petites embarcations',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      ),
+      SizedBox(height: 18,),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Debut 10:00',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+          Text(
+            'Fin 15:00',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
+      SizedBox(height: 18,),
+      Container(
+        height: 14 * 10 + 20,
+        child: SingleChildScrollView(
+          child: Text(
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,'
+  'molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum'
+  'numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium'
+  'optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis'
+  'obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam'
+  'nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,'
+  'tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,'
+  'quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos'
+  'sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam'
+  'recusandae alias error harum maxime adipisci amet laborum. Perspiciatis'
+  'minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit'
+  'quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur'
+  'fugiat, temporibus enim commodi iusto libero magni deleniti quod quam'
+  'consequuntur! Commodi minima excepturi repudiandae velit hic maxime'
+  'doloremque. Quaerat provident commodi consectetur veniam similique ad'
+  'earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo'
+  'fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore'
+  'suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium'
+  'modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam'
+  'totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam'
+  'quasi aliquam eligendi, placeat qui corporis!',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              height: 1.2,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
 }
