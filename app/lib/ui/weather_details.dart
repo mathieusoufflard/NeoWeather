@@ -131,7 +131,7 @@ class WeatherDetails extends StatelessWidget {
   );
 
   Widget weatherDetailsCard() => Padding(
-    padding: EdgeInsets.only(left: 20, right: 20),
+    padding: EdgeInsets.only(left: 20, right: 20, top: 43),
     child: Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
