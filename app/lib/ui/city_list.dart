@@ -1,4 +1,5 @@
 import 'package:app/ui/add_city.dart';
+import 'package:app/ui/weather_details.dart';
 import 'package:flutter/material.dart';
 
 class CityList extends StatefulWidget{
@@ -50,7 +51,7 @@ class _CityListState extends State<CityList>{
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: (){
-              print('tap');
+              Navigator.push(context, MaterialPageRoute(builder: (context) => WeatherDetails()));
             },
             child:Container(
               height: 90,
