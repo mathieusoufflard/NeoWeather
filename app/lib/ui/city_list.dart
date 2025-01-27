@@ -51,7 +51,7 @@ class _CityListState extends State<CityList>{
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => WeatherDetails()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const WeatherDetails()));
             },
             child:Container(
               height: 90,
