@@ -45,11 +45,16 @@ class _AddCity extends State<AddCity>{
     padding: EdgeInsets.only(left: 10),
     child: Align(
       alignment: Alignment.topLeft,
-      child: Image.asset(
-        'assets/navigation/back_arrow.png',
-        color: Colors.black,
-        scale: 1.75,
-      ),
+      child: GestureDetector(
+        onTap: (){
+          Navigator.pop(context);
+        },
+        child: Image.asset(
+          'assets/navigation/back_arrow.png',
+          color: Colors.black,
+          scale: 1.75,
+        ),
+      )
     ),
   );
 
