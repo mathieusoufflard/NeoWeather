@@ -29,29 +29,33 @@ class AppWidgets {
   static customCard({
     required Color color,
     required Widget child,
-}){
+    required double paddingLeft,
+    required double paddingRight,
+  }){
     return Padding(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 43),
-      child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        //color: Colors.red.withOpacity(0.25),
-        color: color,
-        child: Container(
-          decoration: BoxDecoration(
+      padding: EdgeInsets.only(left: paddingLeft, right: paddingRight, top: 43),
+      child: IntrinsicWidth(
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            color: color,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: child,
+          //color: Colors.red.withOpacity(0.25),
+          color: color,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: color,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: child,
+            ),
           ),
         ),
-      ),
+      )
     );
-}
+  }
 
 
 }
