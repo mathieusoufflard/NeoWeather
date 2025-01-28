@@ -235,7 +235,8 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Humidité', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 18,),
+        SizedBox(height: 10,),
+        AppWidgets.customText(text: '95%', color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)
       ],
     ),
   );
@@ -251,7 +252,15 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Visibilité', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 18,),
+        SizedBox(height: 10,),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppWidgets.customText(text: '8', color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+            AppWidgets.customText(text: 'km', color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)
+          ],
+        ),
       ],
     ),
   );
@@ -267,7 +276,9 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Vent', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 18,),
+        SizedBox(height: 10,),
+        AppWidgets.customText(text: '10', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        AppWidgets.customText(text: 'km/h', color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)
       ],
     ),
   );
@@ -283,7 +294,8 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Indice UV', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 18,),
+        SizedBox(height: 10,),
+        AppWidgets.customText(text: '0', color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)
       ],
     ),
   );
@@ -299,7 +311,9 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Préssion', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 18,),
+        SizedBox(height: 10,),
+        AppWidgets.customText(text: '1009.5', color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+        AppWidgets.customText(text: 'hPa', color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)
       ],
     ),
   );
