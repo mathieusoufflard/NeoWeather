@@ -106,7 +106,7 @@ class WeatherDetails extends StatelessWidget {
     ],
   );
 
-  weatherAlertCard() => AppWidgets.customCard(
+  weatherAlertCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 20,
     paddingRight: 20,
     color: const Color.fromRGBO(216, 0, 4, 0.25),
@@ -172,7 +172,29 @@ class WeatherDetails extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: AppWidgets.customText(text: 'Prévision par heure', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 18,),
+          SizedBox(height: 10),
+          SizedBox(
+            height: 95,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 11,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 50),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AppWidgets.customText(text: '8°', color: Colors.white, fontSize: 16),
+                      const SizedBox(height: 3),
+                      Image.asset('assets/weather_icon/clear_sky.png', scale: 2.5,),
+                      const SizedBox(height: 3),
+                      AppWidgets.customText(text: '12:00', color: Colors.white, fontSize: 14,),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
   );
@@ -188,12 +210,35 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Prévision par jours', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 18,),
+        SizedBox(height: 10,),
+        SizedBox(
+          height: 130,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 11,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 50),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppWidgets.customText(text: '8°', color: Colors.white, fontSize: 16),
+                    AppWidgets.customText(text: '10°', color: Colors.white, fontSize: 16),
+                    const SizedBox(height: 3),
+                    Image.asset('assets/weather_icon/clear_sky.png', scale: 2.5,),
+                    const SizedBox(height: 3),
+                    AppWidgets.customText(text: 'Lundi', color: Colors.white, fontSize: 14,),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
       ],
     ),
   );
 
-  weatherSunsetCard() => AppWidgets.customCard(
+  weatherSunsetCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 20,
     paddingRight: 20,
     color: Color.fromRGBO(16, 64, 132, 0.25),
@@ -224,7 +269,7 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
-  weatherHumidityCard() => AppWidgets.customCard(
+  weatherHumidityCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 20,
     paddingRight: 10,
     color: Color.fromRGBO(16, 64, 132, 0.25),
@@ -241,7 +286,7 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
-  weatherVisibilityCard() => AppWidgets.customCard(
+  weatherVisibilityCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 10,
     paddingRight: 10,
     color: Color.fromRGBO(16, 64, 132, 0.25),
@@ -265,7 +310,7 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
-  weatherWindSpeedCard() => AppWidgets.customCard(
+  weatherWindSpeedCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 10,
     paddingRight: 20,
     color: Color.fromRGBO(16, 64, 132, 0.25),
@@ -283,7 +328,7 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
-  weatherUVCard() => AppWidgets.customCard(
+  weatherUVCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 20,
     paddingRight: 10,
     color: Color.fromRGBO(16, 64, 132, 0.25),
@@ -300,7 +345,7 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
-  weatherPressureCard() => AppWidgets.customCard(
+  weatherPressureCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 10,
     paddingRight: 20,
     color: Color.fromRGBO(16, 64, 132, 0.25),
