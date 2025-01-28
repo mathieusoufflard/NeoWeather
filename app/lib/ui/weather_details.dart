@@ -204,7 +204,22 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Lever et coucher du soleil', color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 18,),
+        SizedBox(height: 10,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Image.asset('assets/weather_icon/clear_sky.png', scale: 2,),
+            AppWidgets.customText(text: '8:30', color: Colors.white, fontSize: 10)
+          ],
+        ),
+        SizedBox(height: 10,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Image.asset('assets/weather_icon/sunset.png', scale: 2.2,),
+            AppWidgets.customText(text: '17:32', color: Colors.white, fontSize: 10)
+          ],
+        ),
       ],
     ),
   );
