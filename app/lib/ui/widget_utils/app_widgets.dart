@@ -26,7 +26,7 @@ class AppWidgets {
     );
   }
 
-  static customCard({
+  static customIntrinsicCard({
     required Color color,
     required Widget child,
     required double paddingLeft,
@@ -54,6 +54,35 @@ class AppWidgets {
           ),
         ),
       )
+    );
+  }
+
+  static customCard({
+    required Color color,
+    required Widget child,
+    required double paddingLeft,
+    required double paddingRight,
+  }){
+    return Padding(
+        padding: EdgeInsets.only(left: paddingLeft, right: paddingRight, top: 43),
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          //color: Colors.red.withOpacity(0.25),
+          color: color,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: color,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: child,
+            ),
+          ),
+        ),
     );
   }
 
