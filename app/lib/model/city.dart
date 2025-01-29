@@ -1,9 +1,13 @@
+import 'package:app/model/weather_data.dart';
+
 class City {
   final String name;
   final double lat;
   final double lon;
   final String? state;
   final String country;
+  WeatherData? weatherData;
+
 
   City({
     required this.name,
@@ -11,6 +15,7 @@ class City {
     required this.lon,
     this.state,
     required this.country,
+    this.weatherData,
   });
 
   List<City> parseCities(List<dynamic> jsonList) {
