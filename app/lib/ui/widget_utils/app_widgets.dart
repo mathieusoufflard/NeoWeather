@@ -7,7 +7,7 @@ class AppWidgets {
   static customText({
     required String text,
     required Color color,
-    required double fontSize,
+    double? fontSize,
     FontWeight? fontWeight,
     double? height,
     int? maxLines,
