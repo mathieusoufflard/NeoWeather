@@ -1,9 +1,13 @@
+import 'package:app/model/city.dart';
 import 'package:app/ui/widget/gradient_scaffold.dart';
 import 'package:app/ui/widget_utils/app_widgets.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/utils.dart';
+
 class WeatherDetails extends StatelessWidget {
-  const WeatherDetails({super.key});
+  final City _city;
+  const WeatherDetails(this._city, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,7 @@ class WeatherDetails extends StatelessWidget {
                 backButton(context),
                 Expanded(
                   child: Center(
-                    child: AppWidgets.customText(text: 'Paris', color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold, maxLines: 1, textOverflow: TextOverflow.ellipsis),
+                    child: AppWidgets.customText(text: _city.name, color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold, maxLines: 1, textOverflow: TextOverflow.ellipsis),
                   ),
                 ),
               ],
@@ -81,25 +85,25 @@ class WeatherDetails extends StatelessWidget {
           Padding(
               padding: EdgeInsets.only(right: 10),
             child: Image.asset(
-              'assets/weather_icon/clear_sky.png',
+              Utils.getWeatherIcon(_city.weatherData!.current.weather.id),
               scale: 1.5,
             ),
           ),
-          AppWidgets.customText(text: '8°', color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+          AppWidgets.customText(text: _city.weatherData!.current.temp.toString(), color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
         ],
       ),
-      AppWidgets.customText(text: 'Nuageux', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-      AppWidgets.customText(text: 'Resentie 6°', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+      AppWidgets.customText(text: _city.weatherData!.current.weather.description, color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+      AppWidgets.customText(text: 'Resentie ${_city.weatherData!.current.feelsLike.toString()}°', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
               padding: EdgeInsets.only(right: 10),
-            child: AppWidgets.customText(text: 'min: 1', color: Colors.white, fontSize: 16),
+            child: AppWidgets.customText(text: 'min: ', color: Colors.white, fontSize: 16),
           ),
           Padding(
             padding: EdgeInsets.only(left: 10),
-            child: AppWidgets.customText(text: 'max: 10', color: Colors.white, fontSize: 16),
+            child: AppWidgets.customText(text: 'max: ', color: Colors.white, fontSize: 16),
           ),
         ],
       )
