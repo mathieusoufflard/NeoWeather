@@ -1,8 +1,13 @@
+import 'package:app/model/city.dart';
 import 'package:app/ui/widget/gradient_scaffold.dart';
+import 'package:app/ui/widget_utils/app_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/api_call.dart';
+
 class AddCity extends StatefulWidget{
+
   const AddCity({super.key});
 
   @override
@@ -10,6 +15,46 @@ class AddCity extends StatefulWidget{
 }
 
 class _AddCity extends State<AddCity>{
+  final _textEditController = TextEditingController();
+  bool _showResult = false;
+  List<City> _searchCities = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditController.addListener(_onSearchChanged);
+  }
+
+  void _onSearchChanged() {
+    if (_textEditController.text.isNotEmpty) {
+      _fetchCities();
+    } else {
+      setState(() {
+        _showResult = false;
+        _searchCities.clear();
+      });
+    }
+  }
+  Future<void> _fetchCities() async {
+    try {
+      final List<City> cities = await ApiCall.getCityCoordinates(_textEditController.text);
+
+      setState(() {
+        _searchCities = cities;
+        _showResult = _searchCities.isNotEmpty;
+      });
+    } catch (e) {
+      print('Erreur : $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _textEditController.dispose();
+    _textEditController.removeListener(_onSearchChanged);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GradientScaffold(
@@ -36,6 +81,7 @@ class _AddCity extends State<AddCity>{
         alignment: Alignment.topCenter,
         child: SearchBar(
           leading: const Icon(Icons.search),
+          controller: _textEditController,
         ),
       ),
     ),
@@ -58,47 +104,56 @@ class _AddCity extends State<AddCity>{
     ),
   );
 
-  citiesResult() => Center(
-    child: Container(
-      constraints: const BoxConstraints(maxHeight: 450.0),
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: ListView.builder(
-        padding: const EdgeInsets.only(left: 5, right: 5),
-        shrinkWrap: true,
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return Container(
-            height: 45,
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Cergy, Ile-de-France, France'
-                    ),
-                    InkWell(
-                        onTap: (){
-                          print('ajouter');
-                        },
-                        child: const Text(
-                          'Ajouter',
-                          style: TextStyle(
-                            color: CupertinoColors.activeBlue,
-                          ),
-                        )
-                    ),
-                  ]
-              ),
-            ),
-          );
-        },
-      ),
-    ),
-  );
+  citiesResult() {
+    if (!_showResult || _searchCities.isEmpty){
+      return Container();
+    }else{
+      return Center(
+        child: Container(
+          constraints: const BoxConstraints(maxHeight: 450.0),
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: _searchCities.length,
+            itemBuilder: (context, index) {
+              final city = _searchCities[index];
+              return Container(
+                height: 45,
+                margin: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        AppWidgets.customText(text: '${city.name}, ', color: Colors.black, textOverflow: TextOverflow.ellipsis),
+                        AppWidgets.customText(text: '${city.state}, ', color: Colors.black, textOverflow: TextOverflow.ellipsis),
+                        AppWidgets.customText(text: city.country, color: Colors.black, textOverflow: TextOverflow.ellipsis),
+                        const Spacer(),
+                        InkWell(
+                            onTap: (){
+                              Navigator.pop(context, City(
+                                name: city.name,
+                                lat: city.lat,
+                                lon: city.lon,
+                                country: city.country,
+                                weatherData: null,
+                              ));
+                            },
+                            child: AppWidgets.customText(text: 'Ajouter', color: CupertinoColors.activeBlue, textOverflow: TextOverflow.ellipsis)
+                        ),
+                      ]
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      );
+    }
+  }
   
 }
