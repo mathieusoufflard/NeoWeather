@@ -4,12 +4,14 @@ import 'daily_weather.dart';
 import 'hourly_weather.dart';
 
 class WeatherData {
+  String timezone;
   final CurrentWeather current;
   final List<HourlyWeather> hourly;
   final List<DailyWeather> daily;
   final List<WeatherAlert>? alerts;
 
   WeatherData({
+    required this.timezone,
     required this.current,
     required this.hourly,
     required this.daily,
@@ -18,6 +20,7 @@ class WeatherData {
 
   factory WeatherData.fromJson(Map<String, dynamic> json) {
     return WeatherData(
+      timezone: json['timezone'],
       current: CurrentWeather.fromJson(json['current']),
       hourly: (json['hourly'] as List<dynamic>)
           .map((hour) => HourlyWeather.fromJson(hour))
