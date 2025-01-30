@@ -89,21 +89,21 @@ class WeatherDetails extends StatelessWidget {
               scale: 1.5,
             ),
           ),
-          AppWidgets.customText(text: _city.weatherData!.current.temp.toString(), color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+          AppWidgets.customText(text: _city.weatherData!.current.temp.round().toString(), color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
         ],
       ),
       AppWidgets.customText(text: _city.weatherData!.current.weather.description, color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-      AppWidgets.customText(text: 'Resentie ${_city.weatherData!.current.feelsLike.toString()}°', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+      AppWidgets.customText(text: 'Resentie ${_city.weatherData!.current.feelsLike.round().toString()}°', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
               padding: EdgeInsets.only(right: 10),
-            child: AppWidgets.customText(text: 'min: ${_city.weatherData!.daily[0].temp.min}', color: Colors.white, fontSize: 16),
+            child: AppWidgets.customText(text: 'min: ${_city.weatherData!.daily[0].temp.min.round()}', color: Colors.white, fontSize: 16),
           ),
           Padding(
             padding: EdgeInsets.only(left: 10),
-            child: AppWidgets.customText(text: 'max: ${_city.weatherData!.daily[0].temp.max}', color: Colors.white, fontSize: 16),
+            child: AppWidgets.customText(text: 'max: ${_city.weatherData!.daily[0].temp.max.round()}', color: Colors.white, fontSize: 16),
           ),
         ],
       )
@@ -173,7 +173,7 @@ class WeatherDetails extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AppWidgets.customText(text: _city.weatherData!.hourly[index].temp.toString(), color: Colors.white, fontSize: 16),
+                      AppWidgets.customText(text: _city.weatherData!.hourly[index].temp.round().toString(), color: Colors.white, fontSize: 16),
                       const SizedBox(height: 3),
                       Image.asset(Utils.getWeatherIcon(_city.weatherData!.hourly[index].weather.id), scale: 2.5,),
                       const SizedBox(height: 3),
@@ -211,8 +211,8 @@ class WeatherDetails extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    AppWidgets.customText(text: '${_city.weatherData!.daily[index].temp.min}°', color: Colors.white, fontSize: 16),
-                    AppWidgets.customText(text: '${_city.weatherData!.daily[index].temp.max}°', color: Colors.white, fontSize: 16),
+                    AppWidgets.customText(text: '${_city.weatherData!.daily[index].temp.min.round()}°', color: Colors.white, fontSize: 16),
+                    AppWidgets.customText(text: '${_city.weatherData!.daily[index].temp.max.round()}°', color: Colors.white, fontSize: 16),
                     const SizedBox(height: 3),
                     Image.asset(Utils.getWeatherIcon(_city.weatherData!.daily[index].weather.id), scale: 2.5,),
                     const SizedBox(height: 3),

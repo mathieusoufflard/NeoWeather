@@ -128,7 +128,7 @@ class _CityListState extends State<CityList>{
                             ],
                           ),
                           AppWidgets.customText(text: _cities[index].weatherData != null
-                              ? '${_cities[index].weatherData!.current.temp}°'
+                              ? '${_cities[index].weatherData!.current.temp.round()}°'
                               : "--°",
                               color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
                           //Text('test°'),
