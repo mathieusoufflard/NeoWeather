@@ -99,70 +99,55 @@ class WeatherDetails extends StatelessWidget {
         children: [
           Padding(
               padding: EdgeInsets.only(right: 10),
-            child: AppWidgets.customText(text: 'min: ', color: Colors.white, fontSize: 16),
+            child: AppWidgets.customText(text: 'min: ${_city.weatherData!.daily[0].temp.min}', color: Colors.white, fontSize: 16),
           ),
           Padding(
             padding: EdgeInsets.only(left: 10),
-            child: AppWidgets.customText(text: 'max: ', color: Colors.white, fontSize: 16),
+            child: AppWidgets.customText(text: 'max: ${_city.weatherData!.daily[0].temp.max}', color: Colors.white, fontSize: 16),
           ),
         ],
       )
     ],
   );
 
-  weatherAlertCard() => AppWidgets.customIntrinsicCard(
-    paddingLeft: 20,
-    paddingRight: 20,
-    color: const Color.fromRGBO(216, 0, 4, 0.25),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: AppWidgets.customText(text: 'Alerte', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 18,),
-        AppWidgets.customText(text: 'Meteo_France', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        SizedBox(height: 18,),
-        AppWidgets.customText(text: 'Avis aux petites embarcations', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        SizedBox(height: 18,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            AppWidgets.customText(text: 'Debut 10:00', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-            AppWidgets.customText(text: 'Fin 15:00', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-          ],
-        ),
-        SizedBox(height: 18,),
-        Container(
-          height: 14 * 10 + 20,
-          child: SingleChildScrollView(
-            child: AppWidgets.customText(text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,'
-                'molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum'
-                'numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium'
-                'optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis'
-                'obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam'
-                'nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,'
-                'tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,'
-                'quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos'
-                'sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam'
-                'recusandae alias error harum maxime adipisci amet laborum. Perspiciatis'
-                'minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit'
-                'quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur'
-                'fugiat, temporibus enim commodi iusto libero magni deleniti quod quam'
-                'consequuntur! Commodi minima excepturi repudiandae velit hic maxime'
-                'doloremque. Quaerat provident commodi consectetur veniam similique ad'
-                'earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo'
-                'fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore'
-                'suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium'
-                'modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam'
-                'totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam'
-                'quasi aliquam eligendi, placeat qui corporis!', color: Colors.white, fontSize: 14, height: 1.2),
+  weatherAlertCard(){
+    if(_city.weatherData!.alerts == null){
+      return Container();
+    }
+    return AppWidgets.customIntrinsicCard(
+      paddingLeft: 20,
+      paddingRight: 20,
+      color: const Color.fromRGBO(216, 0, 4, 0.25),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: AppWidgets.customText(text: 'Alerte', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
-        ),
-      ],
-    ),
-  );
+          SizedBox(height: 18,),
+          AppWidgets.customText(text: _city.weatherData!.alerts![0].senderName, color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          SizedBox(height: 18,),
+          AppWidgets.customText(text: _city.weatherData!.alerts![0].event, color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          SizedBox(height: 18,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppWidgets.customText(text: 'Debut ${_city.weatherData!.alerts![0].start}', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              AppWidgets.customText(text: 'Fin ${_city.weatherData!.alerts![0].end}', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+            ],
+          ),
+          SizedBox(height: 18,),
+          Container(
+            height: 14 * 10 + 20,
+            child: SingleChildScrollView(
+              child: AppWidgets.customText(text: _city.weatherData!.alerts![0].description, color: Colors.white, fontSize: 14, height: 1.2),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   weatherByHourCard() => AppWidgets.customCard(
     paddingLeft: 20,
@@ -181,18 +166,18 @@ class WeatherDetails extends StatelessWidget {
             height: 95,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 11,
+              itemCount: _city.weatherData!.hourly.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 50),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AppWidgets.customText(text: '8°', color: Colors.white, fontSize: 16),
+                      AppWidgets.customText(text: _city.weatherData!.hourly[index].temp.toString(), color: Colors.white, fontSize: 16),
                       const SizedBox(height: 3),
-                      Image.asset('assets/weather_icon/clear_sky.png', scale: 2.5,),
+                      Image.asset(Utils.getWeatherIcon(_city.weatherData!.hourly[index].weather.id), scale: 2.5,),
                       const SizedBox(height: 3),
-                      AppWidgets.customText(text: '12:00', color: Colors.white, fontSize: 14,),
+                      AppWidgets.customText(text: _city.weatherData!.hourly[index].dt.toString(), color: Colors.white, fontSize: 14,),
                     ],
                   ),
                 );
@@ -219,19 +204,19 @@ class WeatherDetails extends StatelessWidget {
           height: 130,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 11,
+            itemCount: _city.weatherData!.daily.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(right: 50),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    AppWidgets.customText(text: '8°', color: Colors.white, fontSize: 16),
-                    AppWidgets.customText(text: '10°', color: Colors.white, fontSize: 16),
+                    AppWidgets.customText(text: '${_city.weatherData!.daily[index].temp.min}°', color: Colors.white, fontSize: 16),
+                    AppWidgets.customText(text: '${_city.weatherData!.daily[index].temp.max}°', color: Colors.white, fontSize: 16),
                     const SizedBox(height: 3),
-                    Image.asset('assets/weather_icon/clear_sky.png', scale: 2.5,),
+                    Image.asset(Utils.getWeatherIcon(_city.weatherData!.daily[index].weather.id), scale: 2.5,),
                     const SizedBox(height: 3),
-                    AppWidgets.customText(text: 'Lundi', color: Colors.white, fontSize: 14,),
+                    AppWidgets.customText(text: _city.weatherData!.daily[index].dt.toString(), color: Colors.white, fontSize: 14,),
                   ],
                 ),
               );
@@ -258,7 +243,7 @@ class WeatherDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image.asset('assets/weather_icon/clear_sky.png', scale: 2,),
-            AppWidgets.customText(text: '8:30', color: Colors.white, fontSize: 10)
+            AppWidgets.customText(text: _city.weatherData!.current.sunrise.toString(), color: Colors.white, fontSize: 10)
           ],
         ),
         SizedBox(height: 10,),
@@ -266,7 +251,7 @@ class WeatherDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image.asset('assets/weather_icon/sunset.png', scale: 2.2,),
-            AppWidgets.customText(text: '17:32', color: Colors.white, fontSize: 10)
+            AppWidgets.customText(text: _city.weatherData!.current.sunset.toString(), color: Colors.white, fontSize: 10)
           ],
         ),
       ],
@@ -285,7 +270,7 @@ class WeatherDetails extends StatelessWidget {
           child: AppWidgets.customText(text: 'Humidité', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10,),
-        AppWidgets.customText(text: '95%', color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)
+        AppWidgets.customText(text: '${_city.weatherData!.current.humidity}%', color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)
       ],
     ),
   );
@@ -306,7 +291,8 @@ class WeatherDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AppWidgets.customText(text: '8', color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+            AppWidgets.customText(text: (_city.weatherData!.current.visibility / 1000).round().toString(),
+                color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
             AppWidgets.customText(text: 'km', color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)
           ],
         ),
@@ -326,7 +312,8 @@ class WeatherDetails extends StatelessWidget {
           child: AppWidgets.customText(text: 'Vent', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10,),
-        AppWidgets.customText(text: '10', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        AppWidgets.customText(text: (_city.weatherData!.current.windSpeed * 3.6).round().toString(),
+            color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         AppWidgets.customText(text: 'km/h', color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)
       ],
     ),
@@ -344,7 +331,7 @@ class WeatherDetails extends StatelessWidget {
           child: AppWidgets.customText(text: 'Indice UV', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10,),
-        AppWidgets.customText(text: '0', color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)
+        AppWidgets.customText(text: _city.weatherData!.current.uvi.round().toString(), color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)
       ],
     ),
   );
@@ -361,7 +348,7 @@ class WeatherDetails extends StatelessWidget {
           child: AppWidgets.customText(text: 'Préssion', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10,),
-        AppWidgets.customText(text: '1009.5', color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+        AppWidgets.customText(text: _city.weatherData!.current.pressure.toString(), color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
         AppWidgets.customText(text: 'hPa', color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)
       ],
     ),
