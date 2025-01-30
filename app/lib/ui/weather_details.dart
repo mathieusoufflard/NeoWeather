@@ -173,7 +173,7 @@ class WeatherDetails extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AppWidgets.customText(text: _city.weatherData!.hourly[index].temp.round().toString(), color: Colors.white, fontSize: 16),
+                      AppWidgets.customText(text: '${_city.weatherData!.hourly[index].temp.round()}°', color: Colors.white, fontSize: 16),
                       const SizedBox(height: 3),
                       Image.asset(Utils.getWeatherIcon(_city.weatherData!.hourly[index].weather.id), scale: 2.5,),
                       const SizedBox(height: 3),
