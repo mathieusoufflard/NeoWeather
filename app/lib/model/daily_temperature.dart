@@ -9,8 +9,8 @@ class DailyTemperature {
 
   factory DailyTemperature.fromJson(Map<String, dynamic> json) {
     return DailyTemperature(
-      min: json['min'],
-      max: json['max'],
+      min: (json['min'] as num).toDouble(),
+      max: (json['max'] as num).toDouble(),
     );
   }
 }
