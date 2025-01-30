@@ -133,8 +133,8 @@ class WeatherDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppWidgets.customText(text: 'Debut ${_city.weatherData!.alerts![0].start}', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-              AppWidgets.customText(text: 'Fin ${_city.weatherData!.alerts![0].end}', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              AppWidgets.customText(text: 'Debut ${Utils.dtToHourMinute(_city.weatherData!.alerts![0].start, _city.weatherData!.timezone)}', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              AppWidgets.customText(text: 'Fin ${Utils.dtToHourMinute(_city.weatherData!.alerts![0].end, _city.weatherData!.timezone)}', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             ],
           ),
           SizedBox(height: 18,),
