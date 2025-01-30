@@ -1,3 +1,7 @@
+import 'package:timezone/data/latest_all.dart' as tzdata;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:intl/intl.dart';
+
 class Utils {
 
   Utils._();
@@ -75,7 +79,7 @@ class Utils {
 
     // ⛅ Few clouds
       case 801:
-        return 'assets/weather_icon/fey_clouds.png';
+        return 'assets/weather_icon/few_clouds.png';
 
     // ⛅  Scattered clouds
       case 802:
@@ -91,4 +95,57 @@ class Utils {
         return 'assets/weather_icon/clear_sky.png';
     }
   }
+
+  static String dtToHour(int dt , String timeZone){
+    tzdata.initializeTimeZones();
+
+    final location = tz.getLocation(timeZone);
+    final localTime = tz.TZDateTime.fromMillisecondsSinceEpoch(location, dt * 1000);
+
+    return DateFormat('HH').format(localTime);
+  }
+
+  static String dtToHourMinute(int dt , String timeZone){
+    tzdata.initializeTimeZones();
+
+    final location = tz.getLocation(timeZone);
+    final localTime = tz.TZDateTime.fromMillisecondsSinceEpoch(location, dt * 1000);
+
+    return DateFormat('HH:mm').format(localTime);
+  }
+
+  static String dtDay(int dt , String timeZone){
+    tzdata.initializeTimeZones();
+
+    final location = tz.getLocation(timeZone);
+    final localTime = tz.TZDateTime.fromMillisecondsSinceEpoch(location, dt * 1000);
+    return usDayToFrDay(DateFormat('EEEE', 'en_US').format(localTime));
+  }
+
+  static String usDayToFrDay(String format) {
+    switch (format) {
+      case'Monday':
+        return 'Lundi';
+
+      case 'Tuesday':
+        return 'Mardi';
+
+      case 'Wednesday':
+        return 'Mercredi';
+
+      case 'Thursday':
+        return 'Jeudi';
+
+      case 'Friday':
+        return 'Vendredi';
+
+      case 'Saturday':
+        return 'Samedi';
+
+      default:
+        return 'Dimanche';
+    }
+  }
+
+
 }
