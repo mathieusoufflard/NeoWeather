@@ -129,9 +129,18 @@ class _AddCity extends State<AddCity>{
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        AppWidgets.customText(text: '${city.name}, ', color: Colors.black, textOverflow: TextOverflow.ellipsis),
-                        AppWidgets.customText(text: '${city.state}, ', color: Colors.black, textOverflow: TextOverflow.ellipsis),
-                        AppWidgets.customText(text: city.country, color: Colors.black, textOverflow: TextOverflow.ellipsis),
+                        Flexible(
+                          flex: 3,
+                            child: AppWidgets.customText(text: '${city.name}, ', color: Colors.black, textOverflow: TextOverflow.ellipsis),
+                        ),
+                        Flexible(
+                          flex: 8,
+                          child: AppWidgets.customText(text: '${city.state}, ', color: Colors.black, textOverflow: TextOverflow.ellipsis),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: AppWidgets.customText(text: city.country, color: Colors.black, textOverflow: TextOverflow.ellipsis),
+                        ),
                         const Spacer(),
                         InkWell(
                             onTap: (){
