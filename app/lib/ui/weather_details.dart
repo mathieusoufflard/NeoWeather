@@ -177,7 +177,7 @@ class WeatherDetails extends StatelessWidget {
                       const SizedBox(height: 3),
                       Image.asset(Utils.getWeatherIcon(_city.weatherData!.hourly[index].weather.id), scale: 2.5,),
                       const SizedBox(height: 3),
-                      AppWidgets.customText(text: _city.weatherData!.hourly[index].dt.toString(), color: Colors.white, fontSize: 14,),
+                      AppWidgets.customText(text: '${Utils.dtToHour(_city.weatherData!.hourly[index].dt, _city.weatherData!.timezone)}:00', color: Colors.white, fontSize: 14,),
                     ],
                   ),
                 );
@@ -216,7 +216,7 @@ class WeatherDetails extends StatelessWidget {
                     const SizedBox(height: 3),
                     Image.asset(Utils.getWeatherIcon(_city.weatherData!.daily[index].weather.id), scale: 2.5,),
                     const SizedBox(height: 3),
-                    AppWidgets.customText(text: _city.weatherData!.daily[index].dt.toString(), color: Colors.white, fontSize: 14,),
+                    AppWidgets.customText(text: Utils.dtDay(_city.weatherData!.daily[index].dt, _city.weatherData!.timezone), color: Colors.white, fontSize: 14,),
                   ],
                 ),
               );
@@ -243,7 +243,7 @@ class WeatherDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image.asset('assets/weather_icon/clear_sky.png', scale: 2,),
-            AppWidgets.customText(text: _city.weatherData!.current.sunrise.toString(), color: Colors.white, fontSize: 10)
+            AppWidgets.customText(text: Utils.dtToHourMinute(_city.weatherData!.current.sunrise, _city.weatherData!.timezone), color: Colors.white, fontSize: 10)
           ],
         ),
         SizedBox(height: 10,),
@@ -251,7 +251,7 @@ class WeatherDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image.asset('assets/weather_icon/sunset.png', scale: 2.2,),
-            AppWidgets.customText(text: _city.weatherData!.current.sunset.toString(), color: Colors.white, fontSize: 10)
+            AppWidgets.customText(text: Utils.dtToHourMinute(_city.weatherData!.current.sunset, _city.weatherData!.timezone), color: Colors.white, fontSize: 10)
           ],
         ),
       ],
