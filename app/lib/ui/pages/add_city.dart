@@ -155,7 +155,10 @@ class _AddCity extends State<AddCity> {
                       ),
                       Flexible(
                         flex: 8,
-                        child: AppWidgets.customText(text: '${city.state}, ', color: Colors.black, textOverflow: TextOverflow.ellipsis),
+                        child: AppWidgets.customText(text : city.state != null
+                            ?'${city.state}, '
+                            :'',
+                            color: Colors.black, textOverflow: TextOverflow.ellipsis),
                       ),
                       Flexible(
                         flex: 1,
