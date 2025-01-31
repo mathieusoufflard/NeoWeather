@@ -103,7 +103,7 @@ class WeatherDetails extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 10),
             child: Image.asset(
               Utils.getWeatherIcon(_city.weatherData!.current.weather.id),
               scale: 1.5,
@@ -118,11 +118,11 @@ class WeatherDetails extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 10),
             child: AppWidgets.customText(text: 'min: ${_city.weatherData!.daily[0].temp.min.round()}', color: Colors.white, fontSize: 16),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10),
             child: AppWidgets.customText(text: 'max: ${_city.weatherData!.daily[0].temp.max.round()}', color: Colors.white, fontSize: 16),
           ),
         ],
@@ -146,11 +146,11 @@ class WeatherDetails extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: AppWidgets.customText(text: 'Alerte', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 18,),
+          const SizedBox(height: 18,),
           AppWidgets.customText(text: _city.weatherData!.alerts![0].senderName, color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-          SizedBox(height: 18,),
+          const SizedBox(height: 18,),
           AppWidgets.customText(text: _city.weatherData!.alerts![0].event, color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-          SizedBox(height: 18,),
+          const SizedBox(height: 18,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -158,8 +158,8 @@ class WeatherDetails extends StatelessWidget {
               AppWidgets.customText(text: 'Fin ${Utils.dtToHourMinute(_city.weatherData!.alerts![0].end, _city.weatherData!.timezone)}', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             ],
           ),
-          SizedBox(height: 18,),
-          Container(
+          const SizedBox(height: 18,),
+          SizedBox(
             height: 14 * 10 + 20,
             child: SingleChildScrollView(
               child: AppWidgets.customText(text: _city.weatherData!.alerts![0].description, color: Colors.white, fontSize: 14, height: 1.2),
@@ -174,7 +174,7 @@ class WeatherDetails extends StatelessWidget {
   weatherByHourCard() => AppWidgets.customCard(
     paddingLeft: 20,
     paddingRight: 20,
-    color: Color.fromRGBO(16, 64, 132, 0.25),
+    color: const Color.fromRGBO(16, 64, 132, 0.25),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -183,7 +183,7 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Prévision par heure', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         SizedBox(
           height: 95,
           child: ListView.builder(
@@ -214,7 +214,7 @@ class WeatherDetails extends StatelessWidget {
   weatherByDayCard() => AppWidgets.customCard(
     paddingLeft: 20,
     paddingRight: 20,
-    color: Color.fromRGBO(16, 64, 132, 0.25),
+    color: const Color.fromRGBO(16, 64, 132, 0.25),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -222,7 +222,7 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Prévision par jours', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         SizedBox(
           height: 130,
           child: ListView.builder(
@@ -254,7 +254,7 @@ class WeatherDetails extends StatelessWidget {
   weatherSunsetCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 20,
     paddingRight: 20,
-    color: Color.fromRGBO(16, 64, 132, 0.25),
+    color: const Color.fromRGBO(16, 64, 132, 0.25),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -262,7 +262,7 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Lever et coucher du soleil', color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -270,7 +270,7 @@ class WeatherDetails extends StatelessWidget {
             AppWidgets.customText(text: Utils.dtToHourMinute(_city.weatherData!.current.sunrise, _city.weatherData!.timezone), color: Colors.white, fontSize: 10)
           ],
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -286,7 +286,7 @@ class WeatherDetails extends StatelessWidget {
   weatherHumidityCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 20,
     paddingRight: 10,
-    color: Color.fromRGBO(16, 64, 132, 0.25),
+    color: const Color.fromRGBO(16, 64, 132, 0.25),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -294,7 +294,7 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Humidité', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         AppWidgets.customText(text: '${_city.weatherData!.current.humidity}%', color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)
       ],
     ),
@@ -304,7 +304,7 @@ class WeatherDetails extends StatelessWidget {
   weatherVisibilityCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 10,
     paddingRight: 10,
-    color: Color.fromRGBO(16, 64, 132, 0.25),
+    color: const Color.fromRGBO(16, 64, 132, 0.25),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -312,7 +312,7 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Visibilité', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -330,7 +330,7 @@ class WeatherDetails extends StatelessWidget {
   weatherWindSpeedCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 10,
     paddingRight: 20,
-    color: Color.fromRGBO(16, 64, 132, 0.25),
+    color: const Color.fromRGBO(16, 64, 132, 0.25),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -338,7 +338,7 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Vent', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         AppWidgets.customText(text: (_city.weatherData!.current.windSpeed * 3.6).round().toString(),
             color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         AppWidgets.customText(text: 'km/h', color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)
@@ -350,7 +350,7 @@ class WeatherDetails extends StatelessWidget {
   weatherUVCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 20,
     paddingRight: 10,
-    color: Color.fromRGBO(16, 64, 132, 0.25),
+    color: const Color.fromRGBO(16, 64, 132, 0.25),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -358,7 +358,7 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Indice UV', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         AppWidgets.customText(text: '${_city.weatherData!.current.uvi}', color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)
       ],
     ),
@@ -368,7 +368,7 @@ class WeatherDetails extends StatelessWidget {
   weatherPressureCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 10,
     paddingRight: 20,
-    color: Color.fromRGBO(16, 64, 132, 0.25),
+    color: const Color.fromRGBO(16, 64, 132, 0.25),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -376,7 +376,7 @@ class WeatherDetails extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: AppWidgets.customText(text: 'Préssion', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         AppWidgets.customText(text: _city.weatherData!.current.pressure.toString(), color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
         AppWidgets.customText(text: 'hPa', color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)
       ],

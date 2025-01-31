@@ -30,6 +30,7 @@ class _CityListState extends State<CityList> {
   ///
   /// This method is called once when the widget is initialized. It checks if there
   /// are any cities in the list, and if so, fetches weather data for each city.
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
