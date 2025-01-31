@@ -7,18 +7,29 @@ import 'package:app/utils/api_call.dart';
 import 'package:app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
-class CityList extends StatefulWidget{
+/// Represents the list of cities in the application.
+///
+/// This class handles the display of a list of cities, fetches weather data for
+/// each city, and provides navigation to detailed weather information for each city.
+class CityList extends StatefulWidget {
 
-  const CityList({super.key,});
+  const CityList({super.key});
 
   @override
   State<CityList> createState() => _CityListState();
 }
 
-class _CityListState extends State<CityList>{
+class _CityListState extends State<CityList> {
 
+  /// List of cities stored in the app.
+  ///
+  /// This list holds the cities added by the user, along with their weather data.
   late List<City> _cities = [];
 
+  /// Initializes the state and fetches weather data for all cities.
+  ///
+  /// This method is called once when the widget is initialized. It checks if there
+  /// are any cities in the list, and if so, fetches weather data for each city.
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -30,6 +41,14 @@ class _CityListState extends State<CityList>{
     });
   }
 
+  /// Fetches the weather data for a city based on its coordinates.
+  ///
+  /// - [lat] : Latitude of the city.
+  /// - [lon] : Longitude of the city.
+  /// - [element] : The city object for which to fetch weather data.
+  ///
+  /// This method makes an API call to fetch weather data for a specific city and updates
+  /// the city object with the new weather data. It then updates the UI with the new data.
   Future<void> _fetchCityWeather(double lat, double lon, City element) async {
     try {
       final WeatherData weatherData = await ApiCall.getWeatherData(lat, lon);
@@ -47,39 +66,50 @@ class _CityListState extends State<CityList>{
         _cities = List.from(_cities);
       });
     } catch (e) {
-      print('Erreur : $e');
+      print('Erreur: $e');
     }
   }
 
+  /// Builds the widget tree for the CityList screen.
+  ///
+  /// This method returns the layout for the CityList screen, which includes
+  /// the title, the list of cities, and the button to add a new city.
   @override
   Widget build(BuildContext context) {
-  return Stack(
-    children: [
-      title(),
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          list(),
-          addBtn(),
-        ],
-      ),
-    ],
-  );
-
-
+    return Stack(
+      children: [
+        title(),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            list(),
+            addBtn(),
+          ],
+        ),
+      ],
+    );
   }
 
+  /// Returns the title widget for the CityList screen.
+  ///
+  /// This widget is displayed at the top of the screen with the text 'NeoWeather'.
   title() => const Align(
-    alignment: Alignment.topCenter,child: Text(
-    'NeoWeather',
-    style: TextStyle(
-      color: Colors.white,
-      fontSize: 36,
-      fontWeight: FontWeight.bold,
+    alignment: Alignment.topCenter,
+    child: Text(
+      'NeoWeather',
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 36,
+        fontWeight: FontWeight.bold,
+      ),
     ),
-  ),
   );
 
+  /// Returns the list widget showing all cities and their weather data.
+  ///
+  /// This widget shows the cities in a list format. If there are no cities added,
+  /// a message indicating no cities are added is displayed. Each city item can be tapped
+  /// to navigate to a detailed weather screen for that city.
   list() {
     if (_cities.isEmpty) {
       return const Center(child: Text("Aucune ville ajoutée", style: TextStyle(color: Colors.white, fontSize: 16)));
@@ -131,7 +161,6 @@ class _CityListState extends State<CityList>{
                               ? '${_cities[index].weatherData!.current.temp.round()}°'
                               : "--°",
                               color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
-                          //Text('test°'),
                         ]
                     ),
                   ),
@@ -144,6 +173,11 @@ class _CityListState extends State<CityList>{
     }
   }
 
+  /// Returns the button widget for adding a new city.
+  ///
+  /// This widget displays a floating action button that, when pressed, opens
+  /// the AddCity page. When a new city is added, the weather data for that city
+  /// is fetched and the city is added to the list.
   addBtn() => Align(
     alignment: Alignment.topRight,
     child: Padding(
@@ -173,7 +207,7 @@ class _CityListState extends State<CityList>{
             fontSize: 25,
           ),
         ),
-      )
+      ),
     ),
   );
 }

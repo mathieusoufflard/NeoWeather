@@ -4,8 +4,16 @@ import 'package:app/ui/widget_utils/app_widgets.dart';
 import 'package:flutter/material.dart';
 import '../../utils/utils.dart';
 
+/// Represents the detailed weather information for a specific city.
+///
+/// This class displays detailed weather data for a city including
+/// temperature, humidity, wind speed, UV index, weather alerts, and more.
 class WeatherDetails extends StatelessWidget {
   final City _city;
+
+  /// Constructor for the WeatherDetails class.
+  ///
+  /// - [city] : The city for which the weather details are displayed.
   const WeatherDetails(this._city, {super.key});
 
   @override
@@ -23,7 +31,6 @@ class WeatherDetails extends StatelessWidget {
               ],
             ),
           ),
-
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 40),
@@ -61,6 +68,9 @@ class WeatherDetails extends StatelessWidget {
     );
   }
 
+  /// Displays the back button to navigate back to the previous screen.
+  ///
+  /// - [context] : The BuildContext for navigation.
   Widget backButton(BuildContext context) => GestureDetector(
     onTap: () {
       Navigator.pop(context);
@@ -72,6 +82,7 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
+  /// Displays the title with the city's name at the top.
   title() => Expanded(
     child: Center(
       child: AppWidgets.customText(
@@ -85,13 +96,14 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
+  /// Displays the main weather data, including temperature, weather description, and min/max temperatures.
   Widget mainData() => Column(
     children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-              padding: EdgeInsets.only(right: 10),
+            padding: EdgeInsets.only(right: 10),
             child: Image.asset(
               Utils.getWeatherIcon(_city.weatherData!.current.weather.id),
               scale: 1.5,
@@ -106,7 +118,7 @@ class WeatherDetails extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-              padding: EdgeInsets.only(right: 10),
+            padding: EdgeInsets.only(right: 10),
             child: AppWidgets.customText(text: 'min: ${_city.weatherData!.daily[0].temp.min.round()}', color: Colors.white, fontSize: 16),
           ),
           Padding(
@@ -118,6 +130,7 @@ class WeatherDetails extends StatelessWidget {
     ],
   );
 
+  /// Displays the weather alert information for the city, if any alerts are present.
   weatherAlertCard(){
     if(_city.weatherData!.alerts == null){
       return Container();
@@ -141,7 +154,7 @@ class WeatherDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppWidgets.customText(text: 'Debut ${Utils.dtToHourMinute(_city.weatherData!.alerts![0].start, _city.weatherData!.timezone)}', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              AppWidgets.customText(text: 'Début ${Utils.dtToHourMinute(_city.weatherData!.alerts![0].start, _city.weatherData!.timezone)}', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
               AppWidgets.customText(text: 'Fin ${Utils.dtToHourMinute(_city.weatherData!.alerts![0].end, _city.weatherData!.timezone)}', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             ],
           ),
@@ -157,45 +170,47 @@ class WeatherDetails extends StatelessWidget {
     );
   }
 
+  /// Displays the hourly weather forecast for the next 24 hours.
   weatherByHourCard() => AppWidgets.customCard(
     paddingLeft: 20,
     paddingRight: 20,
-      color: Color.fromRGBO(16, 64, 132, 0.25),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: AppWidgets.customText(text: 'Prévision par heure', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+    color: Color.fromRGBO(16, 64, 132, 0.25),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: AppWidgets.customText(text: 'Prévision par heure', color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 10),
+        SizedBox(
+          height: 95,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: _city.weatherData!.hourly.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 50),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppWidgets.customText(text: '${_city.weatherData!.hourly[index].temp.round()}°', color: Colors.white, fontSize: 16),
+                    const SizedBox(height: 3),
+                    Image.asset(Utils.getWeatherIcon(_city.weatherData!.hourly[index].weather.id), scale: 2.5,),
+                    const SizedBox(height: 3),
+                    AppWidgets.customText(text: '${Utils.dtToHour(_city.weatherData!.hourly[index].dt, _city.weatherData!.timezone)}:00', color: Colors.white, fontSize: 14,),
+                  ],
+                ),
+              );
+            },
           ),
-          SizedBox(height: 10),
-          SizedBox(
-            height: 95,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _city.weatherData!.hourly.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 50),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AppWidgets.customText(text: '${_city.weatherData!.hourly[index].temp.round()}°', color: Colors.white, fontSize: 16),
-                      const SizedBox(height: 3),
-                      Image.asset(Utils.getWeatherIcon(_city.weatherData!.hourly[index].weather.id), scale: 2.5,),
-                      const SizedBox(height: 3),
-                      AppWidgets.customText(text: '${Utils.dtToHour(_city.weatherData!.hourly[index].dt, _city.weatherData!.timezone)}:00', color: Colors.white, fontSize: 14,),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
+    ),
   );
 
+  /// Displays the daily weather forecast for the upcoming days.
   weatherByDayCard() => AppWidgets.customCard(
     paddingLeft: 20,
     paddingRight: 20,
@@ -235,6 +250,7 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
+  /// Displays the sunrise and sunset times for the city.
   weatherSunsetCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 20,
     paddingRight: 20,
@@ -266,6 +282,7 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
+  /// Displays the current humidity for the city.
   weatherHumidityCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 20,
     paddingRight: 10,
@@ -283,6 +300,7 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
+  /// Displays the current visibility for the city.
   weatherVisibilityCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 10,
     paddingRight: 10,
@@ -308,6 +326,7 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
+  /// Displays the current wind speed for the city.
   weatherWindSpeedCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 10,
     paddingRight: 20,
@@ -327,6 +346,7 @@ class WeatherDetails extends StatelessWidget {
     ),
   );
 
+  /// Displays the current UV index for the city.
   weatherUVCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 20,
     paddingRight: 10,
@@ -339,11 +359,12 @@ class WeatherDetails extends StatelessWidget {
           child: AppWidgets.customText(text: 'Indice UV', color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10,),
-        AppWidgets.customText(text: _city.weatherData!.current.uvi.round().toString(), color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)
+        AppWidgets.customText(text: '${_city.weatherData!.current.uvi}', color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)
       ],
     ),
   );
 
+  /// Displays the current air pressure for the city.
   weatherPressureCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 10,
     paddingRight: 20,
