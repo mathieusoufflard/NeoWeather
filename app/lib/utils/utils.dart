@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:intl/intl.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
+
+import '../model/city.dart';
 
 /// A utility class that provides helper methods for working with weather data and time zones.
 ///
@@ -105,6 +109,26 @@ class Utils {
         return 'assets/weather_icon/clear_sky.png';
     }
   }
+
+  /// Removes duplicate cities from the list, keeping only one instance per unique state-country pair.
+  /// If a city does not have a state, it is assigned "Unknown" to ensure proper uniqueness checks.
+  static List<City> removeDuplicateCity(List<City> cities) {
+    Set<String> uniqueLocations = {};
+    List<City> filteredCities = cities.where((city) {
+
+      final key = "${city.state ?? "Unknown"}-${city.country}";
+
+      if (uniqueLocations.contains(key)) {
+        return false;
+      } else {
+        uniqueLocations.add(key);
+        return true;
+      }
+    }).toList();
+
+    return filteredCities;
+  }
+
 
   /// Converts a given timestamp to the hour in the specified timezone.
   ///

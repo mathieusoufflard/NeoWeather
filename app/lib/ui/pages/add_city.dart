@@ -1,6 +1,7 @@
 import 'package:app/model/city.dart';
 import 'package:app/ui/widget_utils/gradient_scaffold.dart';
 import 'package:app/ui/widget_utils/app_widgets.dart';
+import 'package:app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -50,13 +51,14 @@ class _AddCity extends State<AddCity> {
 
   /// Fetches cities from the API based on the user's input.
   ///
-  /// Updates `_searchCities` with the retrieved results and toggles `_showResult` accordingly.
+  /// Updates `_searchCities` with the retrieved results and toggles without duplicate city `_showResult` accordingly.
   Future<void> _fetchCities() async {
     try {
       final List<City> cities = await ApiCall.getCityCoordinates(_textEditController.text);
 
+      List<City> newCities = Utils.removeDuplicateCity(cities);
       setState(() {
-        _searchCities = cities;
+        _searchCities = newCities;
         _showResult = _searchCities.isNotEmpty;
       });
     } catch (e) {
