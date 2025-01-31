@@ -112,6 +112,9 @@ class Utils {
 
   /// Removes duplicate cities from the list, keeping only one instance per unique state-country pair.
   /// If a city does not have a state, it is assigned "Unknown" to ensure proper uniqueness checks.
+  ///
+  /// - [cities] : list of city given by the searchBar research.
+  /// Returns a list of city without duplication.
   static List<City> removeDuplicateCity(List<City> cities) {
     Set<String> uniqueLocations = {};
     List<City> filteredCities = cities.where((city) {
@@ -127,6 +130,21 @@ class Utils {
     }).toList();
 
     return filteredCities;
+  }
+
+  /// Removes duplicate cities from the list toAddCities, keeping only if the city is not on addedCities list.
+  /// If a city does not have a state, it is assigned "Unknown" to ensure proper uniqueness checks.
+  ///
+  /// - [toAddCities] : list of city given by the searchBar research.
+  /// - [addedCities] : list of city already added by the user.
+  /// Returns a list of city without city already added by the user.
+  static List<City> removeAlreadyNowCites(List<City> toAddCities, List<City> addedCities){
+    Set<String> existingCities = addedCities.map((city) => "${city.name}-${city.state ?? "Unknown"}-${city.country}").toSet();
+
+    return toAddCities.where((city) {
+      final key = "${city.name}-${city.state ?? "Unknown"}-${city.country}";
+      return !existingCities.contains(key);
+    }).toList();
   }
 
 
