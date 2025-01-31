@@ -60,6 +60,7 @@ class _CityListState extends State<CityList> {
           lat: element.lat,
           lon: element.lon,
           country: element.country,
+          state: element.state,
           weatherData: weatherData,
         );
       }
@@ -188,7 +189,7 @@ class _CityListState extends State<CityList> {
       ),
       child: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCity()))
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddCity(_cities)))
               .then((newCity) {
             if (newCity != null) {
               setState(() {

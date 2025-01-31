@@ -9,10 +9,13 @@ import '../../utils/api_call.dart';
 
 /// A screen that allows users to search for and add a city.
 ///
+/// - [_savedCities] : city that already on cityList page
 /// Users can enter a city name in the search bar, retrieve matching results from the API,
 /// and select a city to add to their list.
 class AddCity extends StatefulWidget {
-  const AddCity({super.key});
+  final List<City> _savedCities;
+
+  const AddCity(this._savedCities, {super.key});
 
   @override
   State<AddCity> createState() => _AddCity();
@@ -57,8 +60,9 @@ class _AddCity extends State<AddCity> {
       final List<City> cities = await ApiCall.getCityCoordinates(_textEditController.text);
 
       List<City> newCities = Utils.removeDuplicateCity(cities);
+      List<City> result = Utils.removeAlreadyNowCites(newCities, widget._savedCities);
       setState(() {
-        _searchCities = newCities;
+        _searchCities = result;
         _showResult = _searchCities.isNotEmpty;
       });
     } catch (e) {
@@ -175,6 +179,7 @@ class _AddCity extends State<AddCity> {
                               lat: city.lat,
                               lon: city.lon,
                               country: city.country,
+                              state: city.state,
                               weatherData: null,
                             ),
                           );
