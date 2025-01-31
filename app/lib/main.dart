@@ -1,5 +1,5 @@
-import 'package:app/ui/city_list.dart';
-import 'package:app/ui/widget/gradient_scaffold.dart';
+import 'package:app/ui/pages/city_list.dart';
+import 'package:app/ui/widget_utils/gradient_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

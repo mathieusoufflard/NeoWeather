@@ -1,10 +1,10 @@
 import 'package:app/model/city.dart';
-import 'package:app/ui/widget/gradient_scaffold.dart';
+import 'package:app/ui/widget_utils/gradient_scaffold.dart';
 import 'package:app/ui/widget_utils/app_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/api_call.dart';
+import '../../utils/api_call.dart';
 
 class AddCity extends StatefulWidget{
 
@@ -74,6 +74,24 @@ class _AddCity extends State<AddCity>{
 
   }
 
+  backButton() => Padding(
+    padding: EdgeInsets.only(left: 10),
+    child: Align(
+        alignment: Alignment.topLeft,
+        child: GestureDetector(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Image.asset(
+            'assets/navigation/back_arrow.png',
+            color: Colors.black,
+            scale: 1.75,
+          ),
+        )
+    ),
+  );
+
+
   searchBar() => Expanded(
     child: Padding(
       padding: EdgeInsets.only(right: 20),
@@ -84,23 +102,6 @@ class _AddCity extends State<AddCity>{
           controller: _textEditController,
         ),
       ),
-    ),
-  );
-
-  backButton() => Padding(
-    padding: EdgeInsets.only(left: 10),
-    child: Align(
-      alignment: Alignment.topLeft,
-      child: GestureDetector(
-        onTap: (){
-          Navigator.pop(context);
-        },
-        child: Image.asset(
-          'assets/navigation/back_arrow.png',
-          color: Colors.black,
-          scale: 1.75,
-        ),
-      )
     ),
   );
 

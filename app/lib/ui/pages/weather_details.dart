@@ -1,9 +1,8 @@
 import 'package:app/model/city.dart';
-import 'package:app/ui/widget/gradient_scaffold.dart';
+import 'package:app/ui/widget_utils/gradient_scaffold.dart';
 import 'package:app/ui/widget_utils/app_widgets.dart';
 import 'package:flutter/material.dart';
-
-import '../utils/utils.dart';
+import '../../utils/utils.dart';
 
 class WeatherDetails extends StatelessWidget {
   final City _city;
@@ -20,11 +19,7 @@ class WeatherDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 backButton(context),
-                Expanded(
-                  child: Center(
-                    child: AppWidgets.customText(text: _city.name, color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold, maxLines: 1, textOverflow: TextOverflow.ellipsis),
-                  ),
-                ),
+                title(),
               ],
             ),
           ),
@@ -74,6 +69,19 @@ class WeatherDetails extends StatelessWidget {
       'assets/navigation/back_arrow.png',
       color: Colors.black,
       scale: 1.75,
+    ),
+  );
+
+  title() => Expanded(
+    child: Center(
+      child: AppWidgets.customText(
+          text: _city.name,
+          color: Colors.white,
+          fontSize: 36,
+          fontWeight: FontWeight.bold,
+          maxLines: 1,
+          textOverflow: TextOverflow.ellipsis
+      ),
     ),
   );
 

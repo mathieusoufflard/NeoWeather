@@ -1,7 +1,7 @@
 import 'package:app/model/city.dart';
 import 'package:app/model/weather_data.dart';
-import 'package:app/ui/add_city.dart';
-import 'package:app/ui/weather_details.dart';
+import 'package:app/ui/pages/add_city.dart';
+import 'package:app/ui/pages/weather_details.dart';
 import 'package:app/ui/widget_utils/app_widgets.dart';
 import 'package:app/utils/api_call.dart';
 import 'package:app/utils/utils.dart';
