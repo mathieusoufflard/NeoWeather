@@ -116,8 +116,11 @@ class _CityListState extends State<CityList> {
                             children: [
                               AppWidgets.customText(text: city.name, color: Colors.black, fontWeight: FontWeight.bold),
                               AppWidgets.customText(
+                                  text: city.state != null ? city.state! : '',
+                                  color: Colors.black, fontWeight: FontWeight.bold),
+                              AppWidgets.customText(
                                   text: city.weatherData != null
-                                      ? city.weatherData!.current.weather.main
+                                      ? city.weatherData!.current.weather.description
                                       : "Chargement...",
                                   color: Colors.black),
                             ],
