@@ -106,4 +106,26 @@ class AppWidgets {
       ),
     );
   }
+
+  /// Creates a custom [AlertDialog].
+  ///
+  /// - [context] : context of the page who call the alert dialog.
+  static customAlertDialog(BuildContext context) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: const Text('Une erreur est survenue'),
+        content: const Text('Vérifiez votre connexion et recommencez'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'true'),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 }
