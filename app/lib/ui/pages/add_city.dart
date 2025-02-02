@@ -67,6 +67,7 @@ class _AddCity extends State<AddCity> {
       });
     } catch (e) {
       print('Erreur: $e');
+      AppWidgets.customAlertDialog(context);
     }
   }
 
@@ -188,6 +189,7 @@ class _AddCity extends State<AddCity> {
                             }
                           }catch(e) {
                             print('Erreur: $e');
+                            AppWidgets.customAlertDialog(context);
                           }
                           if(mounted){
                             Navigator.pop(context);
