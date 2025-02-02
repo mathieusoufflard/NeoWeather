@@ -171,19 +171,23 @@ class _AddCity extends State<AddCity> {
                       const Spacer(),
                       InkWell(
                         onTap: () async {
-                          var cityBox = Hive.box<City>('cities');
-                          final WeatherData weatherData = await ApiCall.getWeatherData(city.lat, city.lon);
-                          var newCity = City(
-                            name: city.name,
-                            lat: city.lat,
-                            lon: city.lon,
-                            country: city.country,
-                            state: city.state,
-                            weatherData: weatherData
+                          try{
+                            final WeatherData weatherData = await ApiCall.getWeatherData(city.lat, city.lon);
+                            var cityBox = Hive.box<City>('cities');
+                            var newCity = City(
+                                name: city.name,
+                                lat: city.lat,
+                                lon: city.lon,
+                                country: city.country,
+                                state: city.state,
+                                weatherData: weatherData
+                            );
 
-                          );
-                          if (!cityBox.values.any((c) => c.name == newCity.name && c.state == newCity.state && c.country == newCity.country)) {
-                            cityBox.add(newCity);
+                            if (!cityBox.values.any((c) => c.name == newCity.name && c.state == newCity.state && c.country == newCity.country)) {
+                              cityBox.add(newCity);
+                            }
+                          }catch(e) {
+                            print('Erreur: $e');
                           }
                           if(mounted){
                             Navigator.pop(context);
