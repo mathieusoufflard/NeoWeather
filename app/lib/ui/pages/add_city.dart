@@ -4,18 +4,16 @@ import 'package:app/ui/widget_utils/app_widgets.dart';
 import 'package:app/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:hive/hive.dart';
+import '../../model/weather_data.dart';
 import '../../utils/api_call.dart';
 
 /// A screen that allows users to search for and add a city.
-///
-/// - [_savedCities] : city that already on cityList page
 /// Users can enter a city name in the search bar, retrieve matching results from the API,
 /// and select a city to add to their list.
 class AddCity extends StatefulWidget {
-  final List<City> _savedCities;
 
-  const AddCity(this._savedCities, {super.key});
+  const AddCity({super.key});
 
   @override
   State<AddCity> createState() => _AddCity();
@@ -58,9 +56,11 @@ class _AddCity extends State<AddCity> {
   Future<void> _fetchCities() async {
     try {
       final List<City> cities = await ApiCall.getCityCoordinates(_textEditController.text);
+      final Box<City> cityBox = Hive.box<City>('cities');
+      List<City> savedCities = cityBox.values.toList();
 
       List<City> newCities = Utils.removeDuplicateCity(cities);
-      List<City> result = Utils.removeAlreadyNowCites(newCities, widget._savedCities);
+      List<City> result = Utils.removeAlreadyNowCites(newCities, savedCities);
       setState(() {
         _searchCities = result;
         _showResult = _searchCities.isNotEmpty;
@@ -168,21 +168,26 @@ class _AddCity extends State<AddCity> {
                         flex: 1,
                         child: AppWidgets.customText(text: city.country, color: Colors.black, textOverflow: TextOverflow.ellipsis),
                       ),
-
                       const Spacer(),
-
-                      /// Button to add the selected city.
                       InkWell(
-                        onTap: () {
-                          Navigator.pop(context, City(
-                              name: city.name,
-                              lat: city.lat,
-                              lon: city.lon,
-                              country: city.country,
-                              state: city.state,
-                              weatherData: null,
-                            ),
+                        onTap: () async {
+                          var cityBox = Hive.box<City>('cities');
+                          final WeatherData weatherData = await ApiCall.getWeatherData(city.lat, city.lon);
+                          var newCity = City(
+                            name: city.name,
+                            lat: city.lat,
+                            lon: city.lon,
+                            country: city.country,
+                            state: city.state,
+                            weatherData: weatherData
+
                           );
+                          if (!cityBox.values.any((c) => c.name == newCity.name && c.state == newCity.state && c.country == newCity.country)) {
+                            cityBox.add(newCity);
+                          }
+                          if(mounted){
+                            Navigator.pop(context);
+                          }
                         },
                         child: AppWidgets.customText(text: 'Ajouter', color: CupertinoColors.activeBlue, textOverflow: TextOverflow.ellipsis),
                       ),

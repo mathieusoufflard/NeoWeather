@@ -1,16 +1,15 @@
 import 'package:app/model/city.dart';
-import 'package:app/model/weather_data.dart';
 import 'package:app/ui/pages/add_city.dart';
 import 'package:app/ui/pages/weather_details.dart';
 import 'package:app/ui/widget_utils/app_widgets.dart';
-import 'package:app/utils/api_call.dart';
 import 'package:app/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 /// Represents the list of cities in the application.
 ///
-/// This class handles the display of a list of cities, fetches weather data for
-/// each city, and provides navigation to detailed weather information for each city.
+/// This class handles the display of a list of cities, and provides navigation
+/// to detailed weather information for each city.
 class CityList extends StatefulWidget {
 
   const CityList({super.key});
@@ -21,55 +20,18 @@ class CityList extends StatefulWidget {
 
 class _CityListState extends State<CityList> {
 
-  /// List of cities stored in the app.
+  /// List of cities stored in Hive.
   ///
   /// This list holds the cities added by the user, along with their weather data.
-  late List<City> _cities = [];
+  late Box<City> _cityBox;
 
-  /// Initializes the state and fetches weather data for all cities.
+  /// Initializes the state, Hive and load cities.
   ///
   /// This method is called once when the widget is initialized. It checks if there
-  /// are any cities in the list, and if so, fetches weather data for each city.
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_cities.isNotEmpty) {
-        for (var city in _cities) {
-          _fetchCityWeather(city.lat, city.lon, city);
-        }
-      }
-    });
-  }
-
-  /// Fetches the weather data for a city based on its coordinates.
-  ///
-  /// - [lat] : Latitude of the city.
-  /// - [lon] : Longitude of the city.
-  /// - [element] : The city object for which to fetch weather data.
-  ///
-  /// This method makes an API call to fetch weather data for a specific city and updates
-  /// the city object with the new weather data. It then updates the UI with the new data.
-  Future<void> _fetchCityWeather(double lat, double lon, City element) async {
-    try {
-      final WeatherData weatherData = await ApiCall.getWeatherData(lat, lon);
-      int index = _cities.indexWhere((city) => city.name == element.name);
-      if (index != -1) {
-        _cities[index] = City(
-          name: element.name,
-          lat: element.lat,
-          lon: element.lon,
-          country: element.country,
-          state: element.state,
-          weatherData: weatherData,
-        );
-      }
-      setState(() {
-        _cities = List.from(_cities);
-      });
-    } catch (e) {
-      print('Erreur: $e');
-    }
+    _cityBox = Hive.box<City>('cities');
   }
 
   /// Builds the widget tree for the CityList screen.
@@ -113,7 +75,7 @@ class _CityListState extends State<CityList> {
   /// a message indicating no cities are added is displayed. Each city item can be tapped
   /// to navigate to a detailed weather screen for that city.
   list() {
-    if (_cities.isEmpty) {
+    if (_cityBox.isEmpty) {
       return const Center(child: Text("Aucune ville ajoutée", style: TextStyle(color: Colors.white, fontSize: 16)));
     } else {
       return Center(
@@ -122,11 +84,12 @@ class _CityListState extends State<CityList> {
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: _cities.length,
+            itemCount: _cityBox.length,
             itemBuilder: (context, index) {
+              final city = _cityBox.getAt(index)!;
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => WeatherDetails(_cities[index])));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => WeatherDetails(city)));
                 },
                 child: Container(
                   height: 90,
@@ -141,8 +104,8 @@ class _CityListState extends State<CityList> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Image.asset(
-                            _cities[index].weatherData != null
-                                ? Utils.getWeatherIcon((_cities[index].weatherData!.current.weather.id))
+                            city.weatherData != null
+                                ? Utils.getWeatherIcon((city.weatherData!.current.weather.id))
                                 : 'assets/navigation/loading.png',
                             scale: 1.5,
                             color: Colors.black,
@@ -151,16 +114,16 @@ class _CityListState extends State<CityList> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              AppWidgets.customText(text: _cities[index].name, color: Colors.black, fontWeight: FontWeight.bold),
+                              AppWidgets.customText(text: city.name, color: Colors.black, fontWeight: FontWeight.bold),
                               AppWidgets.customText(
-                                  text: _cities[index].weatherData != null
-                                      ? _cities[index].weatherData!.current.weather.main
+                                  text: city.weatherData != null
+                                      ? city.weatherData!.current.weather.main
                                       : "Chargement...",
                                   color: Colors.black),
                             ],
                           ),
-                          AppWidgets.customText(text: _cities[index].weatherData != null
-                              ? '${_cities[index].weatherData!.current.temp.round()}°'
+                          AppWidgets.customText(text: city.weatherData != null
+                              ? '${city.weatherData!.current.temp.round()}°'
                               : "--°",
                               color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
                         ]
@@ -178,8 +141,7 @@ class _CityListState extends State<CityList> {
   /// Returns the button widget for adding a new city.
   ///
   /// This widget displays a floating action button that, when pressed, opens
-  /// the AddCity page. When a new city is added, the weather data for that city
-  /// is fetched and the city is added to the list.
+  /// the AddCity page. When a new city is added, update the state Page.
   addBtn() => Align(
     alignment: Alignment.topRight,
     child: Padding(
@@ -189,16 +151,8 @@ class _CityListState extends State<CityList> {
       ),
       child: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AddCity(_cities)))
-              .then((newCity) {
-            if (newCity != null) {
-              setState(() {
-                _cities = List.from(_cities)..add(newCity);
-              });
-              _fetchCityWeather(newCity.lat, newCity.lon, newCity).then((_) {
-                setState(() {});
-              });
-            }
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCity())).then((value) => {
+          setState(() {})
           });
         },
         backgroundColor: Colors.white,
