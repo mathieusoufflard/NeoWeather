@@ -132,7 +132,7 @@ class WeatherDetails extends StatelessWidget {
 
   /// Displays the weather alert information for the city, if any alerts are present.
   weatherAlertCard(){
-    if(_city.weatherData!.alerts == null){
+    if(_city.weatherData!.alerts == null || _city.weatherData!.alerts!.isEmpty){
       return Container();
     }
     return AppWidgets.customIntrinsicCard(
