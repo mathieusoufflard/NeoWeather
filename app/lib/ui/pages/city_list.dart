@@ -78,9 +78,7 @@ class _CityListState extends State<CityList> {
         }catch (e){
           print('Erreur lors de la mise à jour de ${element.name} : $e');
         }
-
       }
-
     }
   }
 
@@ -153,7 +151,7 @@ class _CityListState extends State<CityList> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => WeatherDetails(city)));
                 },
                 child: Container(
-                  height: 90,
+                  height: 100,
                   margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
@@ -171,20 +169,25 @@ class _CityListState extends State<CityList> {
                             scale: 1.5,
                             color: Colors.black,
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AppWidgets.customText(text: city.name, color: Colors.black, fontWeight: FontWeight.bold),
-                              AppWidgets.customText(
-                                  text: city.state != null ? city.state! : '',
-                                  color: Colors.black, fontWeight: FontWeight.bold),
-                              AppWidgets.customText(
-                                  text: city.weatherData != null
-                                      ? city.weatherData!.current.weather.description
-                                      : "Chargement...",
-                                  color: Colors.black),
-                            ],
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                AppWidgets.customText(text: city.name, color: Colors.black, fontWeight: FontWeight.bold),
+                                AppWidgets.customText(
+                                    text: city.state != null ? city.state! : '',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    maxLines: 2
+                                ),
+                                AppWidgets.customText(
+                                    text: city.weatherData != null
+                                        ? city.weatherData!.current.weather.description
+                                        : "Chargement...",
+                                    color: Colors.black),
+                              ],
+                            ),
                           ),
                           AppWidgets.customText(text: city.weatherData != null
                               ? '${city.weatherData!.current.temp.round()}°'
