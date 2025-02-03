@@ -1,4 +1,6 @@
+import 'package:app/model/city.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 /// A utility class containing static methods to create custom widgets
 /// like styled text and cards to maintain a consistent design.
@@ -123,6 +125,37 @@ class AppWidgets {
           TextButton(
             onPressed: () => Navigator.pop(context, 'true'),
             child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Creates a custom [AlertDialog].
+  ///
+  /// - [context] : context of the page who call the alert dialog.
+  static customDeleteAlertDialog(BuildContext context, Box<City> cityBox, int index, VoidCallback onDelete) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: const Text('suppression'),
+        content: Text('Êtes-vous sûr de vouloir supprimer ${cityBox.getAt(index)?.name} de votre liste ?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'true'),
+            child: const Text('non'),
+          ),
+          TextButton(
+            onPressed: () {
+              customSnackBar(context, 'suppression de ${cityBox.getAt(index)?.name}');
+              cityBox.deleteAt(index);
+              Navigator.pop(context, 'true');
+              onDelete();
+              },
+            child: const Text('oui'),
           ),
         ],
       ),

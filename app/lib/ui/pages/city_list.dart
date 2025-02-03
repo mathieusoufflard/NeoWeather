@@ -147,6 +147,17 @@ class _CityListState extends State<CityList> {
             itemBuilder: (context, index) {
               final city = _cityBox.getAt(index)!;
               return GestureDetector(
+                onLongPress: (){
+                  AppWidgets.customDeleteAlertDialog(
+                    context,
+                    _cityBox,
+                    index,
+                      (){
+                      setState(() {
+                      });
+                      }
+                  );
+                },
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => WeatherDetails(city)));
                 },
