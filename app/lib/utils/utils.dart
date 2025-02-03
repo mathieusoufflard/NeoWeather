@@ -1,8 +1,12 @@
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
-
 import '../model/city.dart';
+import 'package:geolocator/geolocator.dart';
+
+import '../model/weather_data.dart';
+import 'api_call.dart';
 
 /// A utility class that provides helper methods for working with weather data and time zones.
 ///
@@ -229,5 +233,64 @@ class Utils {
       default:
         return 'Dimanche';
     }
+  }
+
+  /// Adds the user's current location as a city in the Hive database.
+  ///
+  /// This function retrieves the user's current GPS coordinates, converts them into a city name,
+  /// fetches the weather data for that city, and saves the city with its weather data in Hive.
+  /// If the city is already present in the database, it will not be added.
+  static Future<void> addCurrentLocationCity() async {
+    try {
+      Position position = await Utils.determinePosition();
+
+      City? city = await ApiCall.getCityFromCoordinates(position.latitude, position.longitude);
+      if (city == null) {
+        return;
+      }
+      WeatherData weatherData = await ApiCall.getWeatherData(city.lat, city.lon);
+
+      var cityBox = Hive.box<City>('cities');
+      var newCity = City(
+        name: city.name,
+        lat: city.lat,
+        lon: city.lon,
+        country: city.country,
+        state: city.state,
+        weatherData: weatherData,
+      );
+
+      if (!cityBox.values.any((c) => c.name == newCity.name && c.state == newCity.state && c.country == newCity.country)) {
+        cityBox.add(newCity);
+      }
+    } catch (e) {
+      throw Exception("Erreur lors de l'ajout de la ville : $e");
+    }
+  }
+
+  /// Retrieves the current geographic location of the user.
+  /// Returns a [Position] object containing latitude and longitude.
+  static Future<Position> determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      throw Exception('Les services de localisation sont désactivés.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        throw Exception('Permission de localisation refusée.');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      throw Exception('Permission de localisation refusée définitivement.');
+    }
+
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 }

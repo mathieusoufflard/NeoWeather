@@ -89,7 +89,14 @@ class _AddCity extends State<AddCity> {
               _searchBar(),
             ],
           ),
-          _citiesResult(),
+          Center(
+            child: Column(
+              children: [
+                _addFromLocalisation(),
+                _citiesResult(),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -127,82 +134,98 @@ class _AddCity extends State<AddCity> {
     ),
   );
 
+  _addFromLocalisation() => Padding(
+    padding: const EdgeInsets.only(top: 80, right: 20),
+    child: Align(
+        alignment: Alignment.topCenter,
+        child: TextButton(
+          onPressed: () async {
+            try{
+              await Utils.addCurrentLocationCity();
+              Navigator.pop(context);
+            }catch (e){
+              AppWidgets.customAlertDialog(context);
+            }
+          },
+          child: AppWidgets.customText(text: 'Ajout depuis la localisation actuel', color: Colors.white, fontSize: 20),
+        )
+    ),
+  );
+
   /// Returns a list of search results or an empty container if no results are available.
   Widget _citiesResult() {
     if (!_showResult || _searchCities.isEmpty) {
       return Container();
     } else {
-      return Center(
-        child: Container(
-          constraints: const BoxConstraints(maxHeight: 450.0),
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: _searchCities.length,
-            itemBuilder: (context, index) {
-              final city = _searchCities[index];
+      return Container(
+        constraints: const BoxConstraints(maxHeight: 450.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: _searchCities.length,
+          itemBuilder: (context, index) {
+            final city = _searchCities[index];
 
-              return Container(
-                height: 45,
-                margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        flex: 3,
-                        child: AppWidgets.customText(text: '${city.name}, ',color: Colors.black, textOverflow: TextOverflow.ellipsis),
-                      ),
-                      Flexible(
-                        flex: 8,
-                        child: AppWidgets.customText(text : city.state != null
-                            ?'${city.state}, '
-                            :'',
-                            color: Colors.black, textOverflow: TextOverflow.ellipsis),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: AppWidgets.customText(text: city.country, color: Colors.black, textOverflow: TextOverflow.ellipsis),
-                      ),
-                      const Spacer(),
-                      InkWell(
-                        onTap: () async {
-                          try{
-                            final WeatherData weatherData = await ApiCall.getWeatherData(city.lat, city.lon);
-                            var cityBox = Hive.box<City>('cities');
-                            var newCity = City(
-                                name: city.name,
-                                lat: city.lat,
-                                lon: city.lon,
-                                country: city.country,
-                                state: city.state,
-                                weatherData: weatherData
-                            );
+            return Container(
+              height: 45,
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      flex: 3,
+                      child: AppWidgets.customText(text: '${city.name}, ',color: Colors.black, textOverflow: TextOverflow.ellipsis),
+                    ),
+                    Flexible(
+                      flex: 8,
+                      child: AppWidgets.customText(text : city.state != null
+                          ?'${city.state}, '
+                          :'',
+                          color: Colors.black, textOverflow: TextOverflow.ellipsis),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: AppWidgets.customText(text: city.country, color: Colors.black, textOverflow: TextOverflow.ellipsis),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      onTap: () async {
+                        try{
+                          final WeatherData weatherData = await ApiCall.getWeatherData(city.lat, city.lon);
+                          var cityBox = Hive.box<City>('cities');
+                          var newCity = City(
+                              name: city.name,
+                              lat: city.lat,
+                              lon: city.lon,
+                              country: city.country,
+                              state: city.state,
+                              weatherData: weatherData
+                          );
 
-                            if (!cityBox.values.any((c) => c.name == newCity.name && c.state == newCity.state && c.country == newCity.country)) {
-                              cityBox.add(newCity);
-                            }
-                          }catch(e) {
-                            print('Erreur: $e');
-                            AppWidgets.customAlertDialog(context);
+                          if (!cityBox.values.any((c) => c.name == newCity.name && c.state == newCity.state && c.country == newCity.country)) {
+                            cityBox.add(newCity);
                           }
-                          if(mounted){
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: AppWidgets.customText(text: 'Ajouter', color: CupertinoColors.activeBlue, textOverflow: TextOverflow.ellipsis),
-                      ),
-                    ],
-                  ),
+                        }catch(e) {
+                          print('Erreur: $e');
+                          AppWidgets.customAlertDialog(context);
+                        }
+                        if(mounted){
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: AppWidgets.customText(text: 'Ajouter', color: CupertinoColors.activeBlue, textOverflow: TextOverflow.ellipsis),
+                    ),
+                  ],
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       );
     }
