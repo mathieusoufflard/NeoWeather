@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:intl/intl.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
@@ -187,6 +185,21 @@ class Utils {
     final location = tz.getLocation(timeZone);
     final localTime = tz.TZDateTime.fromMillisecondsSinceEpoch(location, dt * 1000);
     return usDayToFrDay(DateFormat('EEEE', 'en_US').format(localTime));
+  }
+
+  /// check if a given timestamp have delay on his local date time.
+  ///
+  /// - [dt] : The timestamp.
+  /// - [timeZone] : The local timezone.
+  /// Returns true if the timestamp have delay.
+  static bool isLocalDtHaveDelay(int dt , String timeZone){
+    tzdata.initializeTimeZones();
+
+    final location = tz.getLocation(timeZone);
+    final savedTime = tz.TZDateTime.fromMillisecondsSinceEpoch(location, dt * 1000);
+    final localTime = tz.TZDateTime.now(location);
+
+    return localTime.difference(savedTime).inHours >= 1;
   }
 
   /// Converts a day of the week in English to French.
