@@ -128,4 +128,20 @@ class AppWidgets {
       ),
     );
   }
+
+  static customSnackBar(BuildContext context, String message){
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 3),
+          backgroundColor: Colors.white,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20)
+            ),
+          ),
+          content: customText(text: message, color: Colors.black, fontSize: 20),
+      ),
+    );
+  }
 }

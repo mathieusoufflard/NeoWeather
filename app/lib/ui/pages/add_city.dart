@@ -141,7 +141,7 @@ class _AddCity extends State<AddCity> {
         child: TextButton(
           onPressed: () async {
             try{
-              await Utils.addCurrentLocationCity();
+              await Utils.addCurrentLocationCity(context);
               Navigator.pop(context);
             }catch (e){
               AppWidgets.customAlertDialog(context);
@@ -210,6 +210,7 @@ class _AddCity extends State<AddCity> {
 
                           if (!cityBox.values.any((c) => c.name == newCity.name && c.state == newCity.state && c.country == newCity.country)) {
                             cityBox.add(newCity);
+                            AppWidgets.customSnackBar(context, 'Ville ${city.name} Ajouter avec Succes !');
                           }
                         }catch(e) {
                           print('Erreur: $e');

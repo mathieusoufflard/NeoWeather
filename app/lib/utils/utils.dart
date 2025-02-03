@@ -1,3 +1,4 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/data/latest.dart' as tzdata;
@@ -6,6 +7,7 @@ import '../model/city.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../model/weather_data.dart';
+import '../ui/widget_utils/app_widgets.dart';
 import 'api_call.dart';
 
 /// A utility class that provides helper methods for working with weather data and time zones.
@@ -240,7 +242,7 @@ class Utils {
   /// This function retrieves the user's current GPS coordinates, converts them into a city name,
   /// fetches the weather data for that city, and saves the city with its weather data in Hive.
   /// If the city is already present in the database, it will not be added.
-  static Future<void> addCurrentLocationCity() async {
+  static Future<void> addCurrentLocationCity(BuildContext context) async {
     try {
       Position position = await Utils.determinePosition();
 
@@ -262,7 +264,12 @@ class Utils {
 
       if (!cityBox.values.any((c) => c.name == newCity.name && c.state == newCity.state && c.country == newCity.country)) {
         cityBox.add(newCity);
+        AppWidgets.customSnackBar(context, 'Ville ${city.name} Ajouter avec Succes !');
       }
+      else{
+        AppWidgets.customSnackBar(context, 'Ville déjà présente dans votre liste');
+      }
+
     } catch (e) {
       throw Exception("Erreur lors de l'ajout de la ville : $e");
     }
