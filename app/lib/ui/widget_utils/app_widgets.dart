@@ -131,9 +131,12 @@ class AppWidgets {
     );
   }
 
-  /// Creates a custom [AlertDialog].
+  /// Creates a custom [AlertDialog]. Delete or not a city from Hive
   ///
   /// - [context] : context of the page who call the alert dialog.
+  /// - [cityBox] : a city contain in give.
+  /// - [index] : index of a city contain in give.
+  /// - [onDelete] : callBack function which will be execute.
   static customDeleteAlertDialog(BuildContext context, Box<City> cityBox, int index, VoidCallback onDelete) {
     showDialog<String>(
       context: context,
@@ -162,6 +165,10 @@ class AppWidgets {
     );
   }
 
+  /// Creates a custom [SnackBar].
+  ///
+  /// - [context] : context of the page who call the alert dialog.
+  /// - [message] : a sting which will be inside the snackBar
   static customSnackBar(BuildContext context, String message){
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
