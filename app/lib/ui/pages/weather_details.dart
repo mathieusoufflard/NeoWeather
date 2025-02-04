@@ -44,7 +44,7 @@ class WeatherDetails extends StatelessWidget {
                     weatherByDayCard(),
                     weatherSunsetCard(),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         weatherHumidityCard(),
                         weatherVisibilityCard(),
@@ -285,7 +285,7 @@ class WeatherDetails extends StatelessWidget {
   /// Displays the current humidity for the city.
   weatherHumidityCard() => AppWidgets.customIntrinsicCard(
     paddingLeft: 20,
-    paddingRight: 10,
+    paddingRight: 5,
     color: const Color.fromRGBO(16, 64, 132, 0.25),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -302,8 +302,8 @@ class WeatherDetails extends StatelessWidget {
 
   /// Displays the current visibility for the city.
   weatherVisibilityCard() => AppWidgets.customIntrinsicCard(
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
     color: const Color.fromRGBO(16, 64, 132, 0.25),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -328,7 +328,7 @@ class WeatherDetails extends StatelessWidget {
 
   /// Displays the current wind speed for the city.
   weatherWindSpeedCard() => AppWidgets.customIntrinsicCard(
-    paddingLeft: 10,
+    paddingLeft: 5,
     paddingRight: 20,
     color: const Color.fromRGBO(16, 64, 132, 0.25),
     child: Column(
