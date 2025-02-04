@@ -23,6 +23,8 @@ class _AddCity extends State<AddCity> {
   /// Controller for the search text field.
   final _textEditController = TextEditingController();
 
+  bool _isLoading = false;
+
   /// Whether to display search results.
   bool _showResult = false;
 
@@ -139,18 +141,37 @@ class _AddCity extends State<AddCity> {
     child: Align(
         alignment: Alignment.topCenter,
         child: TextButton(
-          onPressed: () async {
-            try{
-              await Utils.addCurrentLocationCity(context);
-              Navigator.pop(context);
-            }catch (e){
-              AppWidgets.customAlertDialog(context);
-            }
-          },
-          child: AppWidgets.customText(text: 'Ajout depuis la localisation actuel', color: Colors.white, fontSize: 20),
-        )
-    ),
+          onPressed: _isLoading ? null : _handleAddCurrentLocation,
+          child: _isLoading
+              ? const CircularProgressIndicator(color: Colors.white)
+              : AppWidgets.customText(
+            text: 'Ajout depuis la localisation actuelle',
+            color: Colors.white,
+            fontSize: 20,
+          ),
+        )),
   );
+
+  Future<void> _handleAddCurrentLocation() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await Utils.addCurrentLocationCity(context);
+      if (mounted) Navigator.pop(context); // Ferme l'écran si toujours monté
+    } catch (e) {
+      if (mounted) {
+        AppWidgets.customAlertDialog(context);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   /// Returns a list of search results or an empty container if no results are available.
   Widget _citiesResult() {
