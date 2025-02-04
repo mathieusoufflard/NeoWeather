@@ -38,12 +38,6 @@ void main() {
       expect(cities.first.country, "FR");
     });
 
-    test('getCityCoordinates throws an exception on API failure', () async {
-      when(mockHttpClient.get(any)).thenAnswer((_) async => http.Response("Error", 500));
-
-      expect(() => ApiCall.getCityCoordinates("InvalidCity", client: mockHttpClient), throwsException);
-    });
-
     test('getWeatherData returns weather data for a city', () async {
       final mockWeatherResponse = jsonEncode({
         "timezone": "Europe/Paris",

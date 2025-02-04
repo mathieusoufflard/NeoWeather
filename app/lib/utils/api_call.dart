@@ -28,10 +28,6 @@ class ApiCall {
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = jsonDecode(response.body);
 
-        if (jsonResponse.isEmpty) {
-          throw Exception("Aucune ville trouvée.");
-        }
-
         return jsonResponse.map((json) => City.fromJson(json)).toList();
       } else {
         throw Exception('Erreur lors de la récupération des coordonnées :${response.statusCode}');
@@ -57,9 +53,6 @@ class ApiCall {
     try {
       final response = await http.get(url);
 
-      if (response.statusCode != 200) {
-        throw Exception('Erreur lors de la récupération des données météo : ${response.statusCode}');
-      }
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
         return WeatherData.fromJson(jsonResponse);
